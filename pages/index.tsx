@@ -3,6 +3,8 @@ import styles from "../styles/Home.module.css";
 import { useAppDispatch, useAppSelector } from "../store";
 import { addToCart } from "../slices/cartSlice";
 import IProduct from "../types/IProduct";
+import NavBar from "../components/navbar";
+import HomeNavBar from "../components/HomeNavbar";
 
 const Home: NextPage = () => {
   const dispatcher = useAppDispatch();
@@ -22,7 +24,7 @@ const Home: NextPage = () => {
 
   return (
     <div className={styles.container}>
-      I am store
+      <HomeNavBar />
       <button onClick={handleOnClick}>Do that</button>
     </div>
   );
