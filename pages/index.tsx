@@ -1,33 +1,48 @@
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import styles from "../styles/Home.module.css";
-import { useAppDispatch, useAppSelector } from "../store";
-import { addToCart } from "../slices/cartSlice";
 import IProduct from "../types/IProduct";
-import NavBar from "../components/navbar";
 import HomeNavBar from "../components/HomeNavbar";
+import ProductList from "../components/ProductList";
+import Button from "../components/Button";
+import { useRouter } from "next/router";
 
-const Home: NextPage = () => {
-  const dispatcher = useAppDispatch();
-  const cart = useAppSelector((state) => state.cart);
+export const getServerSideProps = () => {
+  return {
+    props: {
+      products: fakeProducts,
+    },
+  };
+};
 
-  console.log(cart);
+type Props = {
+  products: IProduct[];
+};
+
+const Home: NextPage<Props> = ({ products }) => {
+  const router = useRouter();
+
   const handleOnClick = () => {
-    const aProduct: IProduct = {
-      id: 1,
-      title: "",
-      price: 1200,
-      picture: "",
-    };
-
-    dispatcher(addToCart(aProduct));
+    router.push("/cart");
   };
 
   return (
     <div className={styles.container}>
       <HomeNavBar />
-      <button onClick={handleOnClick}>Do that</button>
+      <div className={styles.product_section}>
+        <ProductList prodcuts={products} />
+        <Button onClick={handleOnClick}>تکمیل خرید</Button>
+      </div>
     </div>
   );
 };
 
 export default Home;
+
+const fakeProducts: IProduct[] = [
+  {
+    id: 0,
+    title: "قرص",
+    price: 22000,
+    picture: "/images/1.jpg",
+  },
+];
